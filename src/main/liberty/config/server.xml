@@ -1,0 +1,50 @@
+<!-- Copyright (c) 2015 IBM Corp.
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.-->
+<server description="Sample Liberty server">
+
+    <featureManager>
+        <feature>servlet-3.1</feature>
+        <feature>localConnector-1.0</feature>
+    	<feature>webProfile-7.0</feature>
+	</featureManager>
+    
+    <!--  -->
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+        id="defaultHttpEndpoint"></httpEndpoint>
+                  
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication id="formlogin" location="formlogin.war"
+    	name="formlogin">
+    	<application-bnd>
+    		<security-role name="Manager" id="Manager">
+    			<user name="user1"/>
+    		</security-role>
+    		   	<security-role name="Employee" id="Employee">
+    			<user name="user2"/>
+    		   	</security-role>
+    	</application-bnd>
+    </webApplication>
+    <basicRegistry realm="defaultRealm">
+    	<user password="{xor}Lz4sLCgwLTs=" name="user1"/>
+    	<user password="{xor}Lz4sLCgwLTs=" name="user2" />
+    </basicRegistry>
+    
+</server>
